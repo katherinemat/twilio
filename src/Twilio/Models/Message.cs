@@ -43,16 +43,14 @@ namespace Twilio.Models
 
         }
 
-            public void Send()
+        public void Send()
         {
             var client = new RestClient("https://api.twilio.com/2010-04-01");
 
             var request = new RestRequest("Accounts/" + EnvironmentVariables.AccountSid + "/Messages", Method.POST);
 
             request.AddParameter("To", To);
-
-            request.AddParameter("From", From);
-
+            request.AddParameter("From", EnvironmentVariables.FromPhoneNumber);
             request.AddParameter("Body", Body);
 
             client.Authenticator = new HttpBasicAuthenticator(EnvironmentVariables.AccountSid, EnvironmentVariables.AuthToken);
