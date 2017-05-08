@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Twilio.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Twilio
 {
@@ -16,15 +20,25 @@ namespace Twilio
         public IConfigurationRoot Configuration { get; set; }
         public Startup(IHostingEnvironment env)
         {
-           
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(env.ContentRootPath)
+                 .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
         }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddEntityFramework()
+                .AddDbContext<TwilioContext>(options =>
+                    options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var context = app.ApplicationServices.GetService<TwilioContext>();
+            AddTestData(context);
+
             loggerFactory.AddConsole();
 
             if (env.IsDevelopment())
@@ -40,10 +54,22 @@ namespace Twilio
             });
 
             app.UseStaticFiles();
-            app.Run(async (context) =>
+            app.Run(async (error) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await error.Response.WriteAsync("Hello World!");
             });
+        }
+
+        private static void AddTestData(TwilioContext context)
+        {
+            context.Database.ExecuteSqlCommand("Delete From Contacts");
+
+            var contact1 = new Contact();
+            contact1.FirstName = "Rachel";
+            contact1.LastName = "Smith";
+            contact1.PhoneNumber = "+17144586535";
+            context.Contacts.Add(contact1);
+            context.SaveChanges();
         }
     }
 }

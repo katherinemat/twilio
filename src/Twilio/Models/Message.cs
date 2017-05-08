@@ -7,15 +7,22 @@ using RestSharp.Authenticators;
 using Newtonsoft.Json;
 
 using Newtonsoft.Json.Linq;
+using Twilio.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Twilio.Models
 {
+    [Table("Messages")]
     public class Message
     {
+        [Key]
+        public int MessageId { get; set; }
         public string To { get; set; }
         public string From { get; set; }
         public string Body { get; set; }
         public string Status { get; set; }
+        public virtual Contact Contact { get; set; }
 
         public static List<Message> GetMessages()
         {

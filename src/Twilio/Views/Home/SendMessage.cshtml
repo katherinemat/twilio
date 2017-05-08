@@ -5,7 +5,8 @@
 @using (Html.BeginForm())
 {
     @Html.LabelFor(model => model.To)
-    @Html.TextBoxFor(model => model.To)
+    @Html.DropDownList("To")
+
     @Html.LabelFor(model => model.Body)
     @Html.TextBoxFor(model => model.Body)
     <input type="submit" value="Send!" />
