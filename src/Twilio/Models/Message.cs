@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using Newtonsoft.Json;
 
 using Newtonsoft.Json.Linq;
-using Twilio.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace Twilio.Models
 {
-    [Table("Messages")]
     public class Message
     {
-        [Key]
-        public int MessageId { get; set; }
+        public string sid { get; set; }
         public string To { get; set; }
         public string From { get; set; }
         public string Body { get; set; }
         public string Status { get; set; }
-        public virtual Contact Contact { get; set; }
+        public string[] ToArray { get; set; }
 
         public static List<Message> GetMessages()
         {
@@ -61,7 +55,7 @@ namespace Twilio.Models
             request.AddParameter("Body", Body);
 
             client.Authenticator = new HttpBasicAuthenticator(EnvironmentVariables.AccountSid, EnvironmentVariables.AuthToken);
-        
+
             client.ExecuteAsync(request, response =>
             {
                 Console.WriteLine(response.Content);

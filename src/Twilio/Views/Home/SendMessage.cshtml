@@ -1,15 +1,27 @@
 ﻿@model Twilio.Models.Message
 
+@{ 
+    var contacts = ViewBag.Contacts;
+}
+
 <h2>Send a new message</h2>
 <hr />
 @using (Html.BeginForm())
 {
-    @Html.LabelFor(model => model.To)
-    @Html.DropDownList("To")
+    @Html.TextBox("body")
+    @Html.DropDownList("to")
 
-    @Html.LabelFor(model => model.Body)
-    @Html.TextBoxFor(model => model.Body)
+    @foreach (var contact in ViewBag.Contacts)
+    {
+            var firstName = contact.FirstName;
+        @*<input type="checkbox"value="@contact.PhoneNumber" name="@contact.FirstName" id="@contact.FirstName" />*@
+        @firstName
+        @Html.CheckBox(firstName)
+    }
+
+  
     <input type="submit" value="Send!" />
 }
+
 
 @Html.ActionLink("Back home", "Index")

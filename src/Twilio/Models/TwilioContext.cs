@@ -11,9 +11,9 @@ namespace Twilio.Models
     {
         public TwilioContext()
         {
+
         }
 
-        public virtual DbSet<Message> Messages { get; set; }
 
         public virtual DbSet<Contact> Contacts { get; set; }
 

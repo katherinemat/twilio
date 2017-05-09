@@ -8,7 +8,7 @@ using Twilio.Models;
 namespace Twilio.Migrations
 {
     [DbContext(typeof(TwilioContext))]
-    [Migration("20170508214149_Initial")]
+    [Migration("20170509160642_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,35 +31,6 @@ namespace Twilio.Migrations
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
-                });
-
-            modelBuilder.Entity("Twilio.Models.Message", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Body");
-
-                    b.Property<int?>("ContactId");
-
-                    b.Property<string>("From");
-
-                    b.Property<string>("Status");
-
-                    b.Property<string>("To");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("ContactId");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Twilio.Models.Message", b =>
-                {
-                    b.HasOne("Twilio.Models.Contact", "Contact")
-                        .WithMany("Messages")
-                        .HasForeignKey("ContactId");
                 });
         }
     }

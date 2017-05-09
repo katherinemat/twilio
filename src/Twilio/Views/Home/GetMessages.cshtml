@@ -9,10 +9,29 @@
             <ul>
                 <li>To: @Html.DisplayFor(modelItem => message.To)</li>
                 <li>From: @Html.DisplayFor(modelItem => message.From)</li>
-                <li>Body: @Html.DisplayFor(modelItem => message.Body)</li>
+                <li>Body: @Html.TextBoxFor(modelItem => message.Body)</li>
                 <li>Status: @Html.DisplayFor(modelItem => message.Status)</li>
+                <li>Status: @Html.DisplayFor(modelItem => message.sid)</li>
+                @*<label>Send to one more person</label>
+                @Html.HiddenFor(modelItem => message.MessageId)
+                @Html.DropDownList("To")
+                <input type="submit" value="Send!" />*@
+            <hr />
             </ul>
         </li>
+        <form action="Send" class="send-message">
+            <input type="hidden" id="body" name="id" value="@message.Body">
+            
+            <select>
+                @foreach(var contact in ViewBag.To)
+                {
+                    <option value="@contact.PhoneNumber">@contact.FirstName</option>
+
+                }
+            </select>
+            
+            <button type="submit">Submit</button>
+        </form>
     }
 </ol>
 

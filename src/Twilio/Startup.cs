@@ -37,6 +37,7 @@ namespace Twilio
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var context = app.ApplicationServices.GetService<TwilioContext>();
+
             AddTestData(context);
 
             loggerFactory.AddConsole();
@@ -68,7 +69,20 @@ namespace Twilio
             contact1.FirstName = "Rachel";
             contact1.LastName = "Smith";
             contact1.PhoneNumber = "+17144586535";
+
+            var contact2 = new Contact();
+            contact2.FirstName = "Jimmy";
+            contact2.LastName = "Johns";
+            contact2.PhoneNumber = "+17144586535";
+
+            var contact3 = new Contact();
+            contact3.FirstName = "Ronald";
+            contact3.LastName = "McDonald";
+            contact3.PhoneNumber = "+17144586535";
+
             context.Contacts.Add(contact1);
+            context.Contacts.Add(contact2);
+            context.Contacts.Add(contact3);
             context.SaveChanges();
         }
     }

@@ -31,35 +31,6 @@ namespace Twilio.Migrations
 
                     b.ToTable("Contacts");
                 });
-
-            modelBuilder.Entity("Twilio.Models.Message", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Body");
-
-                    b.Property<int?>("ContactId");
-
-                    b.Property<string>("From");
-
-                    b.Property<string>("Status");
-
-                    b.Property<string>("To");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("ContactId");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Twilio.Models.Message", b =>
-                {
-                    b.HasOne("Twilio.Models.Contact", "Contact")
-                        .WithMany("Messages")
-                        .HasForeignKey("ContactId");
-                });
         }
     }
 }
